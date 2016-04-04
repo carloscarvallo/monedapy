@@ -9,6 +9,8 @@ var casas = [ 'http://www.cambioschaco.com.py/',
               'http://www.cambiosalberdi.com',
               'http://mydcambios.com.py/' ]
 
+
+function cotizacion(){
 var casa = casas.map(function(url){
     return cheerio.load(request('GET', url).getBody('utf8'));
   });
@@ -124,7 +126,10 @@ cotizaciones = {
     }
   }
 }
+}
 
+
+setInterval(cotizacion(), 600000)
 
 app.get('/api', function (req, res) {
   res.json(cotizaciones)
