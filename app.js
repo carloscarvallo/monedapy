@@ -4,6 +4,7 @@ var express = require('express'),
     app = express(),
     port = process.env.PORT || 8080;
 
+var router = express.Router();
 
 var casas = [ 'http://www.cambioschaco.com.py/',
               'http://www.cambiosalberdi.com',
@@ -164,9 +165,11 @@ cotizaciones = {
 
 setInterval(cotizacion(), 600000)
 
-app.get('/api', function (req, res) {
-  res.json(cotizaciones);
-})
+router.get('/', function(req, res) {
+    res.json(cotizaciones);
+});
+
+app.use('/api', router);
 
 app.listen(port, function () {
   console.log('Server Running at port:', port);
