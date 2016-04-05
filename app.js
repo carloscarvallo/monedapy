@@ -7,13 +7,14 @@ var express = require('express'),
 
 var casas = [ 'http://www.cambioschaco.com.py/',
               'http://www.cambiosalberdi.com',
-              'http://mydcambios.com.py/' ]
+              'http://mydcambios.com.py/',
+              'http://www.maxicambios.com.py/']
 
 
 function cotizacion(){
-var casa = casas.map(function(url){
-    return cheerio.load(request('GET', url).getBody('utf8'));
-  });
+    var casa = casas.map(function(url){
+        return cheerio.load(request('GET', url).getBody('utf8'));
+    });
 
 //Cambios Chaco
 
@@ -68,6 +69,23 @@ var rmventa = casa[2]('.text-right').eq(7).text().replace(",", ".").replace(".00
 var emcompra = casa[2]('.text-right').eq(8).text().replace(",", ".").replace(".00", "");
 var emventa = casa[2]('.text-right').eq(9).text().replace(",", ".").replace(".00", "");
 
+//Maxi Cambios
+//Dolar
+var dmaxicompra = casa[3]('.lineas1')[0].children[7].children[0].data.trim().replace('.', '');
+var dmaxiventa = casa[3]('.lineas1')[0].children[5].children[0].data.trim().replace('.', '');
+
+//Peso
+var pmaxicompra = casa[3]('.lineas2')[0].children[7].children[0].data.trim().replace('.', '');
+var pmaxiventa = casa[3]('.lineas2')[0].children[5].children[0].data.trim().replace('.', '');
+
+//Real
+var rmaxicompra = casa[3]('.lineas1')[1].children[7].children[0].data.trim().replace('.', '');
+var rmaxiventa = casa[3]('.lineas1')[1].children[5].children[0].data.trim().replace('.', '');
+
+//Euro
+var emaxicompra = casa[3]('.lineas1')[2].children[7].children[0].data.trim().replace('.', '');
+var emaxiventa = casa[3]('.lineas1')[2].children[5].children[0].data.trim().replace('.', '');
+
 cotizaciones = {
   'dolar':{
     'cambioschaco': {
@@ -81,6 +99,10 @@ cotizaciones = {
     'mydcambios':{
       'compra': dmcompra,
       'venta': dmventa
+    },
+    'maxicambios':{
+      'compra': dmaxicompra,
+      'venta': dmaxiventa
     }
   },
   'peso':{
@@ -95,6 +117,10 @@ cotizaciones = {
     'mydcambios':{
       'compra': pmcompra,
       'venta': pmventa
+    },
+    'maxicambios':{
+      'compra': pmaxicompra,
+      'venta': pmaxiventa
     }
   },
   'real':{
@@ -109,6 +135,10 @@ cotizaciones = {
     'mydcambios':{
       'compra': rmcompra,
       'venta': rmventa
+    },
+    'maxicambios':{
+      'compra': rmaxicompra,
+      'venta': rmaxiventa
     }
   },
   'euro':{
@@ -123,11 +153,14 @@ cotizaciones = {
     'mydcambios':{
       'compra': emcompra,
       'venta': emventa
+    },
+    'maxicambios':{
+      'compra': emaxicompra,
+      'venta': emaxiventa
     }
   }
 }
 }
-
 
 setInterval(cotizacion(), 600000)
 
