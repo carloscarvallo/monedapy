@@ -165,9 +165,9 @@ cotizaciones = {
 setInterval(cotizacion(), 600000)
 
 app.get('/api', function (req, res) {
-  res.json(cotizaciones)
+  res.json(cotizaciones);
 })
 
 app.listen(port, function () {
-  console.log('Server Running')
+  console.log('Server Running at port:', port);
 });
